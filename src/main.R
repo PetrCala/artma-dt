@@ -3,6 +3,7 @@
 # Clean the environment - DO NOT CHANGE THIS
 rm(list = ls())
 options(scipen = 999) # No scientific notation
+Sys.setenv(PATH = paste("/bin", Sys.getenv("PATH"), sep = ":"))
 set.seed(123) # Results reproduction, stochastic functions to deterministic for caching
 
 # Static
