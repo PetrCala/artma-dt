@@ -6,7 +6,7 @@ options(scipen = 999) # No scientific notation
 set.seed(123) # Results reproduction, stochastic functions to deterministic for caching
 
 # Static
-source_file <- "base/source_master_thesis_cala.R" # Main source file
+source_file <- "base/source.R" # Main source file
 user_param_file <- "user_parameters.yaml" # File with user parameters
 user_param_model_file <- "resources/user_parameters_model.yaml" # Model user parameters file
 table_templates_file <- "resources/table_templates.yaml" # Table templates file
