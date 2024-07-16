@@ -45,7 +45,7 @@ source_file_list <- list(
 # Function to verify file existence
 verify_file_existence <- function(file_name, file_path) {
   if (!file.exists(file_path)) {
-    stop(paste("Please make sure to place the", file_name, file_path, "in the working directory first."))
+    stop(paste("Could not find the file", file_name, file_path, "in the working directory. Try running the script again, and make sure the file is present."))
   } else {
     cat(paste(file_name, "located.\n"))
   }
