@@ -173,7 +173,7 @@ Here is a list and explanation of the available methods:
   - _Endogenous Kink model_ - [Bom & Rachinger, 2020](https://onlinelibrary.wiley.com/doi/abs/10.1002/jrsm.1352)
 - **Tests relaxing exogeneity** - Construct 2 models relaxing the exogeneity assumption. These are:
   - _Instrumental Variable regression_
-  - \*p-uniform\*\* - [van Aert & van Assen (2018)](https://cloud.r-project.org/web/packages/puniform/puniform.pdf)
+  - _p-uniform_ - [van Aert & van Assen (2018)](https://cloud.r-project.org/web/packages/puniform/puniform.pdf)
 - **P-hacking tests** - Construct 3 models that detect p-hacking. These are:
   - _Caliper tests_ - [Gerber & Malhotra, 2008](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=43eb85dd4af8c64cf6bacba73c39b1027606bcdf)
   - _Elliott tests_ - [Elliot et al. (2022)](https://onlinelibrary.wiley.com/doi/abs/10.3982/ECTA18583)
