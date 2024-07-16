@@ -6035,7 +6035,7 @@ getTheme <- function(theme, x_axis_tick_text = "black"){
 getTopRightLegend <- function(text_size = 18){
     theme(
       legend.title = element_blank(), # No legend title
-      legend.position = c(.98, .98), # Legend at the top right
+      legend.position.inside = c(.98, .98), # Legend at the top right
       legend.justification = c("right", "top"), # To make sure the legend doesn't go outside the plotting area
       legend.direction = "vertical", # Stack legend text vertically
       legend.box = "vertical", # Set legend box direction
