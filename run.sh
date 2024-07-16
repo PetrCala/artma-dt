@@ -6,6 +6,7 @@ show_help() {
     echo
     echo "Commands:"
     echo "  setup           Setup the environment"
+    echo "  merge           (developer) Merge the currently checked out git branch with another one, and push the changes to the remote repository"
     echo "  help            Display this help message"
 }
 
@@ -20,6 +21,10 @@ case "$1" in
 setup)
     shift
     sh scripts/setup.sh "$@"
+    ;;
+merge)
+    shift
+    sh scripts/mergeAndPush.sh "$@"
     ;;
 help)
     show_help
