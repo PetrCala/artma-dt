@@ -100,9 +100,9 @@ To run the code, follow these steps:
 
 1. There are two options of running the script:
 
-- **Use a script runner** - You can run the code in an aesthetic way using the R script `script_runner_master_thesis_cala.R`.
+- **Use a script runner** - You can run the code in an aesthetic way using the R script `script_runner.R`.
   First, modify the parameters within the `user_parameters.yaml` file as you see fit, but in line with the guidelines from the next step. Then, simply run the code.
-- **Use the main script** - You can also run the main code by directly calling the `main_master_thesis_cala.R` file. The disadvantage of this approach (when working with RStudio) is that unnecessary code will be printed into the console. If you are calling this file from the terminal, things will work as intended.
+- **Use the main script** - You can also run the main code by directly calling the `main.R` file. The disadvantage of this approach (when working with RStudio) is that unnecessary code will be printed into the console. If you are calling this file from the terminal, things will work as intended.
   As with the script runner, make sure to modify the within the parameters `user_parameters.yaml` file as you see fit, and in doing so follow the guidelines from step 2.
 
 2. Guidelines for parameter modification:
@@ -117,7 +117,7 @@ To run the code, follow these steps:
 4. After modifying any paramters as you see fit, run either the script runner or the main script. Note that running the script runner executes virtually the same job as running the main script, only less redundant code will be printed into the console, so I personally recommend this approach.
 5. You may encounter errors caused by mismatching file names, package incompatibility, etc. The script will automatically attempt to install all the necessary packages (if they are not installed on your local machine), so in case there are any conflicts, make sure to check that you have fulfilled all prerequisites from the prerequisites section. If you, however, wish to run the code line by line, working with the main script may prove more suitable.
 6. If all goes well, you should see the output in the console, and in the results folder. In the folder `results/numeric/`, you will find for numerical and text-based output, while the folder and `results/graphics/` holds graphical output. In the folder `results/tex`, you will (in the future) find .tex type code representing all result tables generated during the script run. If you wish to modify the form of these tables, see the file `resources/table_templates.yaml`. Furthermore, a file called `main_results.txt`, containing the console log with numerous clean and formatted results, will be created in the `results/` folder. Any existing files within these folders will likely be overwritten upon running the script, so make sure to save any desired files outside these folders after they are generated.
-7. If you wish to look under the hood of the code, see the file `source_master_thesis_cala.R`, which contains all the technical functions, preprocessing, and validation, that is hidden in the main file.
+7. If you wish to look under the hood of the code, see the file `source.R`, which contains all the technical functions, preprocessing, and validation, that is hidden in the main file.
 
 ## Project structure
 
@@ -135,9 +135,9 @@ Here is a list of some crucial files you should get to know before running the p
     - `numeric/` -> All numeric results will be automatically stored here as `.csv` files.
     - `text/` -> All TeX table code will be automatically stored here. This code is directly pasteable into .tex files for compilation (may require packages such as _longtable_,...).
     - `main_results.txt` -> An R console log file where all numeric/tabular results are stored in a presentable form.
-  - `main_master_thesis_cala.R` -> Main script. Call the desired methods with the specified user parameters. Automatically handle package installation, working directory handling, temporary file creation.
-  - `source_master_thesis_cala.R` -> Source script with all the functions. This script is not meant to be ran. Virtaully any function called from the main script is located here. Every function (hopefully) has a docstring explaining its _functionality_ (pun intended). Navigate the script using function names.
-  - `script_runner_master_thesis_cala.R` -> Script for running the code in an aesthetic way. Calls the main script using the `source` command, which omits redundant code. This script is most useful when working with RStudio. When working with a terminal, calling this script is exactly the same as calling the main script.
+  - `main.R` -> Main script. Call the desired methods with the specified user parameters. Automatically handle package installation, working directory handling, temporary file creation.
+  - `source.R` -> Source script with all the functions. This script is not meant to be ran. Virtaully any function called from the main script is located here. Every function (hopefully) has a docstring explaining its _functionality_ (pun intended). Navigate the script using function names.
+  - `script_runner.R` -> Script for running the code in an aesthetic way. Calls the main script using the `source` command, which omits redundant code. This script is most useful when working with RStudio. When working with a terminal, calling this script is exactly the same as calling the main script.
 - `README.md` -> This README file.
 - `.lintr` -> Configuration file for linting.
 
