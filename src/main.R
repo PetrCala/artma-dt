@@ -3,8 +3,8 @@
 # Clean the environment - DO NOT CHANGE THIS
 rm(list = ls())
 options(scipen = 999) # No scientific notation
-Sys.setenv(PATH = paste("/bin", Sys.getenv("PATH"), sep = ":"))
 set.seed(123) # Results reproduction, stochastic functions to deterministic for caching
+Sys.setenv(PATH = paste("/bin", Sys.getenv("PATH"), sep = ":"))
 
 # Static
 source_file <- "base/source.R" # Main source file
@@ -343,6 +343,7 @@ if (run_this$t_stat_histogram) {
   }
   # Main t-stat historam
   t_hist_path <- paste0(folder_paths$graphic_results_folder, "t_hist.png")
+
   t_hist_plot <- run_cached_t_stat_histogram(
     lower_cutoff = adj_params$t_hist_lower_cutoff,
     upper_cutoff = adj_params$t_hist_upper_cutoff,

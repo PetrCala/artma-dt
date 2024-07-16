@@ -121,6 +121,7 @@ adjustable_parameters:
   # T-statistic histogram parameters
   t_hist_lower_cutoff: -120 		# Lower cutoff point for t-statistics
   t_hist_upper_cutoff: 120 		# Upper cutoff point for t-statistics
+  t_hist_minimum_distance_between_ticks: 0.5 # Place no two ticks within this distance for the close up graph
   t_hist_highlight_mean: true		# If T, higlight the mean in the graph also
   t_hist_add_density: false		# If T, add a density line into the graph
   t_hist_t_stats: [-1.96, 1.96]		# A vector of t-statistics to highlight in the graph. Must be a vector.
