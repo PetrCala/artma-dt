@@ -1,16 +1,3 @@
-# " |--------------------------|
-# " Script name: script_runner_master_thesis_cala.R
-# "
-# " The script runner for running the analysis for my Master Thesis on the topic
-# " of "Ability bias in returns to schooling: how large it is and why it matters?"
-# "
-# " For detailed explanation, see the README file distributed with this script.
-# "
-# " Author: Petr Čala
-# " Year created: 2023
-# " GitHub: github.com/PetrCala/
-# " |--------------------------|
-
 # Clean the environment
 rm(list = ls())
 
@@ -31,7 +18,7 @@ if (!getwd() == dirname(getActiveDocumentContext()$path)) {
 }
 
 # Time the script run
-# system.time(source("main_master_thesis_cala.R"))
+# system.time(source("main"))
 
 # Run the main file
-source("main_master_thesis_cala.R")
+source("main.R")

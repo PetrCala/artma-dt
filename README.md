@@ -1,122 +1,98 @@
-﻿# A simple repository for my Diploma Thesis
-
-- **Topic** - Ability bias in the returns to schooling: How large it is and why it matters
-- **Author** - Bc. Petr Čala
-- **Year of defense** - 2024
-- **Supervisor** - doc. PhDr. Zuzana Havránková Ph.D.
+﻿# Automatic Replication Tools for Meta-Analysis
 
 ## About
 
-### How To Use
+This repository helps to facilitate replication of meta-analyses. You can use it to quickly generate a large number of state-of-the-art models for any well-structured dataset.
 
-Clone this repository onto your computer using `git clone https://github.com/PetrCala/Diploma-Thesis.git`, or download it directly using the `<> Code` button above.' Refer to the `Prerequisites` and `How To Run` sections for more detail.
+## How to use
 
-### Project structure
-
-Here is a list of some crucial files you should get to know before running the project.
-
-- `src/` -> Folder with the main file stack.
-  - `data/` -> Folder for storing data. The folder is further split into two sub-folders:
-    - `source/` -> Put your `.xlsx` or `.xlsm` source data file here. In the distributed folder, there is a placeholder file called `data_set_master_thesis_cala.xlsm`.
-    - `temp/` - > This folder will automatically get created upon script run. Here will be the `.csv` files created from the sheets of your data set. This allows reproducibility and consistency within the script.
-  - `pckg/` -> Folder with external packages that are not available online anymore, such as `LowRankQP`.
-  - `resources/` -> Folder with various resources.
-    - `user_parameters_model.yaml` -> Customizable parameters. This file should be copied into the project roote, renamed to `user_parameters.yaml`, and modified to fit the user preferences. Any modifications can be done by opening the file using any text editor, such as `Notepad`. Alternatively, you may want to edit this file using fancier text editors, such as [Sublime Text](https://www.sublimetext.com/docs/vintage.html), or [VIM](https://www.vim.org/).
-  - `results/` -> Folder with all results. A `.zip` file with all results will be automatically created here.
-    - `graphic/` -> All graphic results will be automatically stored here.
-    - `numeric/` -> All numeric results will be automatically stored here as `.csv` files.
-    - `text/` -> All TeX table code will be automatically stored here. This code is directly pasteable into .tex files for compilation (may require packages such as _longtable_,...).
-    - `main_results.txt` -> An R console log file where all numeric/tabular results are stored in a presentable form.
-  - `main_master_thesis_cala.R` -> Main script. Call the desired methods with the specified user parameters. Automatically handle package installation, working directory handling, temporary file creation.
-  - `source_master_thesis_cala.R` -> Source script with all the functions. This script is not meant to be ran. Virtaully any function called from the main script is located here. Every function (hopefully) has a docstring explaining its _functionality_ (pun intended). Navigate the script using function names.
-  - `script_runner_master_thesis_cala.R` -> Script for running the code in an aesthetic way. Calls the main script using the `source` command, which omits redundant code. This script is most useful when working with RStudio. When working with a terminal, calling this script is exactly the same as calling the main script.
-- `README.md` -> This README file.
-- `.lintr` -> Configuration file for linting.
-
-Running the main script (directly or using the script runner) will also create these temporary folders/files:
-
-- `_cache/` -> Temporary cache files will be stored here.
-- `user_parameters.yaml` -> File with customizable parameters. See step 5 of the [Prerequisites section](#prerequisites) for explanation.
-
-Furthermore, the existence of all folders will be verified. Note that some do not appear in the repository, as there is nothing to distribute within these folders. All results (along with the folders) will be created and updated automatically.
-
-## Prerequisites
-
-1. Install the newest version of [Rtools](https://cran.r-project.org/bin/windows/Rtools/). This is important to enable external package handling.
-2. Install [JAGS 4.3.1](https://mcmc-jags.sourceforge.io/). This software is required by the [RoBMA package](https://fbartos.github.io/RoBMA/). As of the current version, I am looking for a workaround to avoid having to install this application, but for now, there is no way around.
-3. Clone the repository:
+1. Clone the repository:
 
    ```bash
-   git clone https://github.com/PetrCala/Diploma-Thesis
+   git clone https://github.com/PetrCala/artma
    ```
 
-4. Change into the directory:
+1. Change into the directory:
 
    ```bash
-   cd Diploma-Thesis
+   cd artma
    ```
 
-5. Run
+1. Run
 
    ```bash
    chmod +x ./run.sh
    ./run.sh setup
    ```
 
-This will attempt to install all required R packages. In case some the installation for some of these packages fails, you may have to install them manually. To see the list of required packages, go to `src/base/const.R`. 6. In case you wish to only test the functionality of the script using placeholder data within the data folder, skip to the **How to run** section below. If you wish, on the other hand, to run your own analysis, make sure to follow the next steps as well. 7. Parameter modification is handled through the `user_parameters.yaml` file. Upon cloning the repository, this file does not exist. It will automatically be created upon running any of the main scripts, where the scripts create this file in the project root with the contents of the model parameter file `resources/user_parameters_model.yaml`. Alternatively, you can manually copy this file to the project root yourself. If you do so, make sure to name it `user_parameters.yaml`. After the file is present in the project root (and named `user_parameters.yaml`, it can be modified to your liking. However, **when modifying the user parameters file, make sure to follow instructions from step 2 of the [How to run](#how-to-run) section.** 8. Place your data file into the `data/source/` folder, right next to the placeholder data file. In case you modified the path to this folder, make sure to place the data file into that folder instead. You may delete the placeholder file in case you do not need it. 9. The file with data must contain two sheets - `data_set` and `var_list` (these are modifiable within the user parameter file). The former should contain all your data that satisfies the conditions described in step 9, while the latter should contain information about variables of the dataset, as described in step 10. 10. The data frame must contain several specific columns, named **Required columns**, and there are also several columns that are optional - **Optional Columns**. If your dataset does not contain the required columns, make sure to add them. If it does contain them, but they are named differently in your data, simply change their names in the `required_cols` section of the `user_parameters.yaml` file. This is the list of the required and optional columns:
+   This will attempt to install all required R packages. In case some the installation for some of these packages fails, you may have to install them manually. To see the list of required packages, go to `src/base/const.R`.
 
-- Required columns:
-  - **obs_id** - Unique ID of the observation.
-  - **study_name** - Name of the study, such as _Einstein et al. (1935)_.
-  - **study_id** - ID of the study. Should be numeric and unique for each study.
-  - **effect** - The main effect/estimate values. If you employ any effect transformations, such as partial correlation coefficient, set this to the transformed effect.
-  - **se** - Standard error of the effect (of the transformed effect).
-  - **n_obs** - Number of observations associated with this estimate.
-- Optional columns:
-  - **t_stat** - t-statistic of the main effect. If set to `NA`, calculated automatically as a ratio of the effect
-    and its standard error.
-  - **precision** - Precision of the effect. If set to `NA`, calculated automatically if omitted using the `precision_type` parameter within the `adjustable_parameters` list of the `user_parameters.yaml` file. Defaults to _1/Standard_Error_.
-  - **study_size** - Number of estimates reported per study. If set to `NA`, calculated automatically if omitted.
-  - **reg_df** - Number of degrees of freedom associated with the regression. If set to `NA`, the number of observations associated with the estimate will be used instead.
+1. In case you wish to only test the functionality of the script using placeholder data within the data folder, skip to the **How to run** section below. If you wish, on the other hand, to run your own analysis, make sure to follow the next steps as well.
 
-10. The sheet labeled as `var_list` (referred to as _variable information_) contains the information about the nature and usage of all columns/variables that appear in the main data frame. You must create this sheet and fill it with information about your dataset in accordance to the following specifications. In doing so, you may use the placeholder dataset for inspiration. If the sheet is not provided, the script will not run. Note that the columns of the variable information sheet must be listed exactly in the order in which they appear in the main data frame. There may be no special characters, and only the explicitly stated values are permitted.
-    The sheet should contain the following columns:
+1. Parameter modification is handled through the `user_parameters.yaml` file. Upon cloning the repository, this file does not exist. It will automatically be created upon running any of the main scripts, where the scripts create this file in the project root with the contents of the model parameter file `resources/user_parameters_model.yaml`. Alternatively, you can manually copy this file to the project root yourself. If you do so, make sure to name it `user_parameters.yaml`. After the file is present in the project root (and named `user_parameters.yaml`, it can be modified to your liking. However, **when modifying the user parameters file, make sure to follow instructions from step 2 of the [How to run](#how-to-run) section.**
 
-- **var_name** - Name of the variable exactly as it appears in the data frame columns. Must not include
-  spaces and various special characters. Underscores are allowed, but the name should never begin with an underscore. Example: _n_obs_.
-- **var_name_verbose** - A verbose name for the variable. Can be any subset of characters, even special ones. Example: _Number of Observations_.
-- **var_name_description** - A lengthy description of the variable. Example: _Number of observations used in the study._
-- **data_type** - Type of the data this variable holds. Can be only one type. Can be one of:
-  - _int_ - Integer. Any integer.
-  - _category_ - Categorical variable. Any string.
-  - _float_ - Float. Any number.
-  - _dummy_ - Dummy. Either 0 or 1.
-  - _perc_ - Percentage. Any value between 0 and 1, inclusive.
-- **group_category** - Group of the variable. Group similar together, otherwise make a new group.
-  Examples - dummies, gender, urban vs. rural, short-run vs. long-run
-- **na_handling** - Specify how missing values should be handled for the variable. Can be one of:
-  - _stop_ - Do not allow missing values. Throw an error in case there is a missing value.
-  - _mean_ - Interpolate with the mean of the existing data.
-  - _median_ - Interpolate with the median of the existing data.
-  - _foo_ - Interpolate with random values. These columns should not be used for further analysis (BMA,...), as their values will be random, and thus incorrect.
-- **variable_summary** - Boolean. If `TRUE`, this variable will appear in the summary statistics table.
-- **effect_sum_stats** - Boolean. If `TRUE`, this variable will appear in the effect summary statistics table.
-- **equal** - Float. If set to any value, the effect summary statistics table will print out the statistics
-  for the main effect of the data when subsetted to this variable equal to the specified value.
-  If set to any value, can not set the `gtlt` column value.
-- **gtlt** - One of "_median_", "_mean_", float. Similar to "equal", but if set to _median_/_mean_, will print out the statistics
-  for the effect of the data when subsetted to values above/below the median value of this variable.
-  If set to float (meaning any number), the subsetting breakpoint will be that value instead.
-- **bma** - Boolean. If `TRUE`, this variable will be used in the Bayesian model averaging. Do NOT set all
-  values of one variable group to `TRUE`. This would create a dummy trap.
-- **bma_reference_var** - Boolean. If `TRUE`, this variable is the reference variable for the **dummy**/**perc** group. Exactly one variable must be a reference variable
-  for each **dummy**/**perc** group.
-- **to_log_for_bma** - Boolean. If `TRUE`, this variable will be converted to logarithm during the
-  Bayesian model averaging.
-- **bpe** - If set to any value, this value will be used when evaluating the best practice estimate. Can also be one of the following: `mean`, `median`, `max`, `min`. If you do not wish to use this variable in the best practice estimate, set its value to `stop`. Be careful **not to set the value to** `FALSE`, as that will raise an error.
-- **bpe_sum_stats** - Boolean. If `TRUE`, this variable will appear in the BPE summary stats table.
-- **bpe_equal** - Similar idea to **equal**, only for the BPE summary stats table.
-- **bpe_gtlt** - Similar idea to **gtlt**, only for the BPE summary stats table.
+1. Place your data file into the `data/source/` folder, right next to the placeholder data file. In case you modified the path to this folder, make sure to place the data file into that folder instead. You may delete the placeholder file in case you do not need it.
+
+1. The file with data must contain two sheets - `data_set` and `var_list` (these are modifiable within the user parameter file). The former should contain all your data that satisfies the conditions described in step 9, while the latter should contain information about variables of the dataset, as described in step 10.
+
+1. The data frame must contain several specific columns, named **Required columns**, and there are also several columns that are optional - **Optional Columns**. If your dataset does not contain the required columns, make sure to add them. If it does contain them, but they are named differently in your data, simply change their names in the `required_cols` section of the `user_parameters.yaml` file. This is the list of the required and optional columns:
+
+   - Required columns:
+     - **obs_id** - Unique ID of the observation.
+     - **study_name** - Name of the study, such as _Einstein et al. (1935)_.
+     - **study_id** - ID of the study. Should be numeric and unique for each study.
+     - **effect** - The main effect/estimate values. If you employ any effect transformations, such as partial correlation coefficient, set this to the transformed effect.
+     - **se** - Standard error of the effect (of the transformed effect).
+     - **n_obs** - Number of observations associated with this estimate.
+   - Optional columns:
+     - **t_stat** - t-statistic of the main effect. If set to `NA`, calculated automatically as a ratio of the effect
+       and its standard error.
+     - **precision** - Precision of the effect. If set to `NA`, calculated automatically if omitted using the `precision_type` parameter within the `adjustable_parameters` list of the `user_parameters.yaml` file. Defaults to _1/Standard_Error_.
+     - **study_size** - Number of estimates reported per study. If set to `NA`, calculated automatically if omitted.
+     - **reg_df** - Number of degrees of freedom associated with the regression. If set to `NA`, the number of observations associated with the estimate will be used instead.
+
+1. The sheet labeled as `var_list` (referred to as _variable information_) contains the information about the nature and usage of all columns/variables that appear in the main data frame. You must create this sheet and fill it with information about your dataset in accordance to the following specifications. In doing so, you may use the placeholder dataset for inspiration. If the sheet is not provided, the script will not run. Note that the columns of the variable information sheet must be listed exactly in the order in which they appear in the main data frame. There may be no special characters, and only the explicitly stated values are permitted.
+   The sheet should contain the following columns:
+
+   - **var_name** - Name of the variable exactly as it appears in the data frame columns. Must not include
+     spaces and various special characters. Underscores are allowed, but the name should never begin with an underscore. Example: _n_obs_.
+   - **var_name_verbose** - A verbose name for the variable. Can be any subset of characters, even special ones. Example: _Number of Observations_.
+   - **var_name_description** - A lengthy description of the variable. Example: _Number of observations used in the study._
+   - **data_type** - Type of the data this variable holds. Can be only one type. Can be one of:
+     - _int_ - Integer. Any integer.
+     - _category_ - Categorical variable. Any string.
+     - _float_ - Float. Any number.
+     - _dummy_ - Dummy. Either 0 or 1.
+     - _perc_ - Percentage. Any value between 0 and 1, inclusive.
+   - **group_category** - Group of the variable. Group similar together, otherwise make a new group.
+     Examples - dummies, gender, urban vs. rural, short-run vs. long-run
+   - **na_handling** - Specify how missing values should be handled for the variable. Can be one of:
+     - _stop_ - Do not allow missing values. Throw an error in case there is a missing value.
+     - _mean_ - Interpolate with the mean of the existing data.
+     - _median_ - Interpolate with the median of the existing data.
+     - _foo_ - Interpolate with random values. These columns should not be used for further analysis (BMA,...), as their values will be random, and thus incorrect.
+   - **variable_summary** - Boolean. If `TRUE`, this variable will appear in the summary statistics table.
+   - **effect_sum_stats** - Boolean. If `TRUE`, this variable will appear in the effect summary statistics table.
+   - **equal** - Float. If set to any value, the effect summary statistics table will print out the statistics
+     for the main effect of the data when subsetted to this variable equal to the specified value.
+     If set to any value, can not set the `gtlt` column value.
+   - **gtlt** - One of "_median_", "_mean_", float. Similar to "equal", but if set to _median_/_mean_, will print out the statistics
+     for the effect of the data when subsetted to values above/below the median value of this variable.
+     If set to float (meaning any number), the subsetting breakpoint will be that value instead.
+   - **bma** - Boolean. If `TRUE`, this variable will be used in the Bayesian model averaging. Do NOT set all
+     values of one variable group to `TRUE`. This would create a dummy trap.
+   - **bma_reference_var** - Boolean. If `TRUE`, this variable is the reference variable for the **dummy**/**perc** group. Exactly one variable must be a reference variable
+     for each **dummy**/**perc** group.
+   - **to_log_for_bma** - Boolean. If `TRUE`, this variable will be converted to logarithm during the
+     Bayesian model averaging.
+   - **bpe** - If set to any value, this value will be used when evaluating the best practice estimate. Can also be one of the following: `mean`, `median`, `max`, `min`. If you do not wish to use this variable in the best practice estimate, set its value to `stop`. Be careful **not to set the value to** `FALSE`, as that will raise an error.
+   - **bpe_sum_stats** - Boolean. If `TRUE`, this variable will appear in the BPE summary stats table.
+   - **bpe_equal** - Similar idea to **equal**, only for the BPE summary stats table.
+   - **bpe_gtlt** - Similar idea to **gtlt**, only for the BPE summary stats table.
+
+### Optional setup
+
+If you wish to use the [RoBMA package](https://fbartos.github.io/RoBMA/), you also need to install [JAGS 4.3.1](https://mcmc-jags.sourceforge.io/).
 
 ## How to Run
 
@@ -142,6 +118,35 @@ To run the code, follow these steps:
 5. You may encounter errors caused by mismatching file names, package incompatibility, etc. The script will automatically attempt to install all the necessary packages (if they are not installed on your local machine), so in case there are any conflicts, make sure to check that you have fulfilled all prerequisites from the prerequisites section. If you, however, wish to run the code line by line, working with the main script may prove more suitable.
 6. If all goes well, you should see the output in the console, and in the results folder. In the folder `results/numeric/`, you will find for numerical and text-based output, while the folder and `results/graphics/` holds graphical output. In the folder `results/tex`, you will (in the future) find .tex type code representing all result tables generated during the script run. If you wish to modify the form of these tables, see the file `resources/table_templates.yaml`. Furthermore, a file called `main_results.txt`, containing the console log with numerous clean and formatted results, will be created in the `results/` folder. Any existing files within these folders will likely be overwritten upon running the script, so make sure to save any desired files outside these folders after they are generated.
 7. If you wish to look under the hood of the code, see the file `source_master_thesis_cala.R`, which contains all the technical functions, preprocessing, and validation, that is hidden in the main file.
+
+## Project structure
+
+Here is a list of some crucial files you should get to know before running the project.
+
+- `src/` -> Folder with the main file stack.
+  - `data/` -> Folder for storing data. The folder is further split into two sub-folders:
+    - `source/` -> Put your `.xlsx` or `.xlsm` source data file here. In the distributed folder, there is a placeholder file called `data_set_master_thesis_cala.xlsm`.
+    - `temp/` - > This folder will automatically get created upon script run. Here will be the `.csv` files created from the sheets of your data set. This allows reproducibility and consistency within the script.
+  - `pckg/` -> Folder with external packages that are not available online anymore, such as `LowRankQP`.
+  - `resources/` -> Folder with various resources.
+    - `user_parameters_model.yaml` -> Customizable parameters. This file should be copied into the project roote, renamed to `user_parameters.yaml`, and modified to fit the user preferences. Any modifications can be done by opening the file using any text editor, such as `Notepad`. Alternatively, you may want to edit this file using fancier text editors, such as [Sublime Text](https://www.sublimetext.com/docs/vintage.html), or [VIM](https://www.vim.org/).
+  - `results/` -> Folder with all results. A `.zip` file with all results will be automatically created here.
+    - `graphic/` -> All graphic results will be automatically stored here.
+    - `numeric/` -> All numeric results will be automatically stored here as `.csv` files.
+    - `text/` -> All TeX table code will be automatically stored here. This code is directly pasteable into .tex files for compilation (may require packages such as _longtable_,...).
+    - `main_results.txt` -> An R console log file where all numeric/tabular results are stored in a presentable form.
+  - `main_master_thesis_cala.R` -> Main script. Call the desired methods with the specified user parameters. Automatically handle package installation, working directory handling, temporary file creation.
+  - `source_master_thesis_cala.R` -> Source script with all the functions. This script is not meant to be ran. Virtaully any function called from the main script is located here. Every function (hopefully) has a docstring explaining its _functionality_ (pun intended). Navigate the script using function names.
+  - `script_runner_master_thesis_cala.R` -> Script for running the code in an aesthetic way. Calls the main script using the `source` command, which omits redundant code. This script is most useful when working with RStudio. When working with a terminal, calling this script is exactly the same as calling the main script.
+- `README.md` -> This README file.
+- `.lintr` -> Configuration file for linting.
+
+Running the main script (directly or using the script runner) will also create these temporary folders/files:
+
+- `_cache/` -> Temporary cache files will be stored here.
+- `user_parameters.yaml` -> File with customizable parameters. See step 5 of the [How to run section](#how-to-run) for explanation.
+
+Furthermore, the existence of all folders will be verified. Note that some do not appear in the repository, as there is nothing to distribute within these folders. All results (along with the folders) will be created and updated automatically.
 
 ## List of available methods
 

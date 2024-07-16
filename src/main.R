@@ -1,16 +1,3 @@
-#' |--------------------------|
-#' Script name: main_master_thesis_cala.R
-#'
-#' The main script for running the analysis for my Master Thesis on the topic
-#' of 'Ability bias in returns to schooling: how large it is and why it matters?'
-#'
-#' For detailed explanation, see the README file distributed with this script.
-#'
-#' Author: Petr Čala
-#' Year created: 2023
-#' GitHub: github.com/PetrCala/
-#' |--------------------------|
-
 ##################### ENVIRONMENT PREPARATION ########################
 
 # Clean the environment - DO NOT CHANGE THIS
