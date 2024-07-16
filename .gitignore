@@ -7,23 +7,14 @@ __pycache__/
 **/*.Rhistory
 **/*.Rdata
 
-# User parameter file
-user_parameters.yaml
-
-# Local
-data/temp/
-_cache/
-
-# Leftover folders from the subtree split
-Data/AdditionalData/
-Dist/
-R/
-Thesis main/
-Communication/
-Studies list/
-
 # R output files and cache
-_cache/*
+src/_cache/*
+src/results/*
+src/data/temp/*
+src/graphics/*
+src/*_debug.R
+src/temp_*.R
+src/user_parameters.yaml
 
 # Shell temp files
 **/*.sh~

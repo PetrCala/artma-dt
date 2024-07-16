@@ -224,7 +224,7 @@ folder_paths:
   ext_package_folder: './pckg/' 		# Store external packages here
   graphic_results_folder: './results/graphic/' 	# Store graphical output here
   tex_results_folder: './results/tex/'   # Store LaTeX tables here
-  scripts_folder: './scripts/' 			# Store R scripts here
+  scripts_folder: './libs/methods/' 			# Store R scripts here
   all_results_folder: "./results/" 		# Store the zip files with all results here
 
 script_files:
