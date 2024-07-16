@@ -100,24 +100,24 @@ To run the code, follow these steps:
 
 1. There are two options of running the script:
 
-- **Use a script runner** - You can run the code in an aesthetic way using the R script `run.R`.
-  First, modify the parameters within the `user_parameters.yaml` file as you see fit, but in line with the guidelines from the next step. Then, simply run the code.
-- **Use the main script** - You can also run the main code by directly calling the `main.R` file. The disadvantage of this approach (when working with RStudio) is that unnecessary code will be printed into the console. If you are calling this file from the terminal, things will work as intended.
-  As with the script runner, make sure to modify the within the parameters `user_parameters.yaml` file as you see fit, and in doing so follow the guidelines from step 2.
+   - **Use a script runner** - You can run the code in an aesthetic way using the R script `run.R`.
+     First, modify the parameters within the `user_parameters.yaml` file as you see fit, but in line with the guidelines from the next step. Then, simply run the code.
+   - **Use the main script** - You can also run the main code by directly calling the `main.R` file. The disadvantage of this approach (when working with RStudio) is that unnecessary code will be printed into the console. If you are calling this file from the terminal, things will work as intended.
+     As with the script runner, make sure to modify the within the parameters `user_parameters.yaml` file as you see fit, and in doing so follow the guidelines from step 2.
 
-2. Guidelines for parameter modification:
+1. Guidelines for parameter modification:
 
-- Do not change the names of any of the parameters, unless told explicitly. Change only the values.
-- Parameters used for calling external functions are marked with the `param_` prefix within their name (see parameters for BMA, non-linear tests,...). Make sure to keep this convention when adding new such parameters.
-- Make sure to keep the object types, unless told explicitly. For example, if a value of a parameter is a vector, make sure it is still a vector after the modifications.
-- `NA` values should be denoted as `.na`. Boolean values should be denoted using `true` or `false`. Null values should be denoted as `null`. None of these should have quotes around them. Use quotes only for characters.
+   - Do not change the names of any of the parameters, unless told explicitly. Change only the values.
+   - Parameters used for calling external functions are marked with the `param_` prefix within their name (see parameters for BMA, non-linear tests,...). Make sure to keep this convention when adding new such parameters.
+   - Make sure to keep the object types, unless told explicitly. For example, if a value of a parameter is a vector, make sure it is still a vector after the modifications.
+   - `NA` values should be denoted as `.na`. Boolean values should be denoted using `true` or `false`. Null values should be denoted as `null`. None of these should have quotes around them. Use quotes only for characters.
 
-3. If you want to run the code using your own data and not the placeholder data provided within the distributed files, put your `.xlsx` data file into the `data/source/` folder. You do not need to delete the distributed placeholder file, but you **must change the expected source file name in the user parameters** for the script to recognize these new files (parameters under the category `source_file_params`).
+1. If you want to run the code using your own data and not the placeholder data provided within the distributed files, put your `.xlsx` data file into the `data/source/` folder. You do not need to delete the distributed placeholder file, but you **must change the expected source file name in the user parameters** for the script to recognize these new files (parameters under the category `source_file_params`).
    Furthermore, modify any other source file parameters so that they fit your data. These include the file name, sheet names, file suffix, and the suffix you wish to attach to the created `.csv` files. If you do not modify these, your data may be read incorrectly.
-4. After modifying any paramters as you see fit, run either the script runner or the main script. Note that running the script runner executes virtually the same job as running the main script, only less redundant code will be printed into the console, so I personally recommend this approach.
-5. You may encounter errors caused by mismatching file names, package incompatibility, etc. The script will automatically attempt to install all the necessary packages (if they are not installed on your local machine), so in case there are any conflicts, make sure to check that you have fulfilled all prerequisites from the prerequisites section. If you, however, wish to run the code line by line, working with the main script may prove more suitable.
-6. If all goes well, you should see the output in the console, and in the results folder. In the folder `results/numeric/`, you will find for numerical and text-based output, while the folder and `results/graphics/` holds graphical output. In the folder `results/tex`, you will (in the future) find .tex type code representing all result tables generated during the script run. If you wish to modify the form of these tables, see the file `resources/table_templates.yaml`. Furthermore, a file called `main_results.txt`, containing the console log with numerous clean and formatted results, will be created in the `results/` folder. Any existing files within these folders will likely be overwritten upon running the script, so make sure to save any desired files outside these folders after they are generated.
-7. If you wish to look under the hood of the code, see the file `source.R`, which contains all the technical functions, preprocessing, and validation, that is hidden in the main file.
+1. After modifying any paramters as you see fit, run either the script runner or the main script. Note that running the script runner executes virtually the same job as running the main script, only less redundant code will be printed into the console, so I personally recommend this approach.
+1. You may encounter errors caused by mismatching file names, package incompatibility, etc. The script will automatically attempt to install all the necessary packages (if they are not installed on your local machine), so in case there are any conflicts, make sure to check that you have fulfilled all prerequisites from the prerequisites section. If you, however, wish to run the code line by line, working with the main script may prove more suitable.
+1. If all goes well, you should see the output in the console, and in the results folder. In the folder `results/numeric/`, you will find for numerical and text-based output, while the folder and `results/graphics/` holds graphical output. In the folder `results/tex`, you will (in the future) find .tex type code representing all result tables generated during the script run. If you wish to modify the form of these tables, see the file `resources/table_templates.yaml`. Furthermore, a file called `main_results.txt`, containing the console log with numerous clean and formatted results, will be created in the `results/` folder. Any existing files within these folders will likely be overwritten upon running the script, so make sure to save any desired files outside these folders after they are generated.
+1. If you wish to look under the hood of the code, see the file `source.R`, which contains all the technical functions, preprocessing, and validation, that is hidden in the main file.
 
 ## Project structure
 
@@ -138,13 +138,14 @@ Here is a list of some crucial files you should get to know before running the p
   - `main.R` -> Main script. Call the desired methods with the specified user parameters. Automatically handle package installation, working directory handling, temporary file creation.
   - `source.R` -> Source script with all the functions. This script is not meant to be ran. Virtaully any function called from the main script is located here. Every function (hopefully) has a docstring explaining its _functionality_ (pun intended). Navigate the script using function names.
   - `run.R` -> Script for running the code in an aesthetic way. Calls the main script using the `source` command, which omits redundant code. This script is most useful when working with RStudio. When working with a terminal, calling this script is exactly the same as calling the main script.
-- `README.md` -> This README file.
 - `.lintr` -> Configuration file for linting.
+- `README.md` -> This README file.
+- `run.sh` -> An invocation script for setting up the environment, testing, etc.
 
 Running the main script (directly or using the script runner) will also create these temporary folders/files:
 
-- `_cache/` -> Temporary cache files will be stored here.
-- `user_parameters.yaml` -> File with customizable parameters. See step 5 of the [How to run section](#how-to-run) for explanation.
+- `src/_cache/` -> Temporary cache files will be stored here.
+- `src/user_parameters.yaml` -> File with customizable parameters. See step 5 of the [How to run section](#how-to-run) for explanation.
 
 Furthermore, the existence of all folders will be verified. Note that some do not appear in the repository, as there is nothing to distribute within these folders. All results (along with the folders) will be created and updated automatically.
 

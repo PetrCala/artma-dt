@@ -4,7 +4,7 @@ set -e
 
 # Static
 R_DIR_NAME="src"
-SETUP_ENV_FILE_NAME="setup_env.R"
+SETUP_ENV_FILE_NAME="libs/setup_env.R" # Relative to the R_DIR directory
 
 SCRIPTS_DIR=$(dirname "${BASH_SOURCE[0]}")
 source "$SCRIPTS_DIR/shellUtils.sh"
