@@ -100,7 +100,7 @@ To run the code, follow these steps:
 
 1. There are two options of running the script:
 
-- **Use a script runner** - You can run the code in an aesthetic way using the R script `script_runner.R`.
+- **Use a script runner** - You can run the code in an aesthetic way using the R script `run.R`.
   First, modify the parameters within the `user_parameters.yaml` file as you see fit, but in line with the guidelines from the next step. Then, simply run the code.
 - **Use the main script** - You can also run the main code by directly calling the `main.R` file. The disadvantage of this approach (when working with RStudio) is that unnecessary code will be printed into the console. If you are calling this file from the terminal, things will work as intended.
   As with the script runner, make sure to modify the within the parameters `user_parameters.yaml` file as you see fit, and in doing so follow the guidelines from step 2.
@@ -137,7 +137,7 @@ Here is a list of some crucial files you should get to know before running the p
     - `main_results.txt` -> An R console log file where all numeric/tabular results are stored in a presentable form.
   - `main.R` -> Main script. Call the desired methods with the specified user parameters. Automatically handle package installation, working directory handling, temporary file creation.
   - `source.R` -> Source script with all the functions. This script is not meant to be ran. Virtaully any function called from the main script is located here. Every function (hopefully) has a docstring explaining its _functionality_ (pun intended). Navigate the script using function names.
-  - `script_runner.R` -> Script for running the code in an aesthetic way. Calls the main script using the `source` command, which omits redundant code. This script is most useful when working with RStudio. When working with a terminal, calling this script is exactly the same as calling the main script.
+  - `run.R` -> Script for running the code in an aesthetic way. Calls the main script using the `source` command, which omits redundant code. This script is most useful when working with RStudio. When working with a terminal, calling this script is exactly the same as calling the main script.
 - `README.md` -> This README file.
 - `.lintr` -> Configuration file for linting.
 
