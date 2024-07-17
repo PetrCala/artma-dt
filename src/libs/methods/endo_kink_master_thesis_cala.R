@@ -11,7 +11,7 @@
 #' "sd0_ek": the standard error of the estimated mean effect size
 #' "b1_ek": the estimated publication bias coefficient by the Endo-Kink method, if applicable
 #' "sd1_ek": the standard error of the estimated publication bias coefficient, if applicable
-runEndoKink <- function(data, verbose = T){
+runEndoKink <- function(data, verbose = T) {
   # Input validation
   stopifnot(
     is.data.frame(data), # Only data frame
@@ -21,7 +21,7 @@ runEndoKink <- function(data, verbose = T){
   )
   # Rename source data
   colnames(data) <- c("bs", "sebs")
-  
+
   # Create new variables
   data$ones <- 1
   M <- nrow(data)
@@ -33,7 +33,7 @@ runEndoKink <- function(data, verbose = T){
   data$ones_sebs <- data$ones / data$sebs
   data$bswis <- data$bs * data$wis
   wis_sum <- sum(data$wis) # Redundant
-  
+
   # FAT-PET
   fat_pet <- lm(bs_sebs ~ 0 + ones_sebs + ones, data = data) # No constant
   # Auxiliary
@@ -42,10 +42,10 @@ runEndoKink <- function(data, verbose = T){
   # End auxiliary
   pet <- fat_pet_est
   t1_linreg <- fat_pet_est / fat_pet_se
-  b_lin <-  fat_pet_est
+  b_lin <- fat_pet_est
   Q1_lin <- sum(resid(fat_pet)^2)
-  abs_t1_linreg <- abs(t1_linreg) 
-  
+  abs_t1_linreg <- abs(t1_linreg)
+
   # PEESE
   peese_model <- lm(bs_sebs ~ 0 + ones_sebs + sebs, data = data) # No constant
   # Auxiliary
@@ -54,39 +54,39 @@ runEndoKink <- function(data, verbose = T){
   peese <- peese_est
   b_sq <- peese_est
   Q1_sq <- sum(resid(peese_model)^2) # Sum of squared residuals
-  
+
   # FAT-PET-PEESE
-  if (abs_t1_linreg > qt(0.975, M-2)) {
+  if (abs_t1_linreg > qt(0.975, M - 2)) {
     combreg <- b_sq
     Q1 <- Q1_sq
   } else {
     combreg <- b_lin
     Q1 <- Q1_lin
   }
-  
+
   # Estimation of random effects variance component
   df_m <- df.residual(peese_model) # DoF from the last regression (peese-model)
   sigh2hat <- max(0, M * ((Q1 / (M - df_m - 1)) - 1) / wis_sum)
   sighhat <- sqrt(sigh2hat)
-  
+
   # Cutoff value for EK
   if (combreg > 1.96 * sighhat) {
     a1 <- (combreg - 1.96 * sighhat) * (combreg + 1.96 * sighhat) / (2 * 1.96 * combreg)
   } else {
     a1 <- 0
   }
-  
+
   # Rename variables - messy source code, kept to the original
   names(data)[names(data) == "bs"] <- "bs_original"
   names(data)[names(data) == "bs_sebs"] <- "bs"
   names(data)[names(data) == "ones_sebs"] <- "constant"
   names(data)[names(data) == "ones"] <- "pub_bias"
-  
+
   # Regressions and coefficient extraction in various scenarios
   if (a1 > sebs_min & a1 < sebs_max) {
     data$sebs_a1 <- ifelse(data$sebs > a1, data$sebs - a1, 0)
     data$pubbias <- data$sebs_a1 / data$sebs
-    ek_regression <- lm(bs ~  0 + constant + pubbias, data = data)
+    ek_regression <- lm(bs ~ 0 + constant + pubbias, data = data)
     b0_ek <- coef(ek_regression)[1]
     b1_ek <- coef(ek_regression)[2]
     sd0_ek <- summary(ek_regression)$coefficients[1, 2]
@@ -105,7 +105,7 @@ runEndoKink <- function(data, verbose = T){
     sd1_ek <- NA
   }
   # Print results to console if desired
-  if (verbose){
+  if (verbose) {
     cat("EK's mean effect estimate (alpha1) and standard error:")
     cat(b0_ek) # Mean effect estimate
     cat(sd0_ek) # Mean effect standard error
@@ -114,5 +114,5 @@ runEndoKink <- function(data, verbose = T){
     cat(sd1_ek) # Pub bias standard error
   }
   # Return the four coefficients
-  return (c(b0_ek, sd0_ek, b1_ek, sd1_ek))
+  return(c(b0_ek, sd0_ek, b1_ek, sd1_ek))
 }

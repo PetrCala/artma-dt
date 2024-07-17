@@ -28,7 +28,7 @@
 #-------------------#
 
 #### ADDED EXTERNALLY, JUST FOR CONFLICTLESS PACKAGE HANDLING ####
-loadPackages <- function(package_list){
+loadPackages <- function(package_list) {
   # Install packages not yet installed
   installed_packages <- package_list %in% rownames(installed.packages())
   if (any(installed_packages == FALSE)) {
@@ -50,7 +50,7 @@ loadPackages(c('ggplot2', 'data.table'))
 #  )
 
 ##1 outer algorithm
-stem <- function(beta, se, param){
+stem <- function(beta, se, param) {
   #Initial Values
   N_study <- length(beta)
   
@@ -76,7 +76,7 @@ stem <- function(beta, se, param){
   
   #Check whether max and min agree
   diff_sigma <- abs(Y_max[3] -  Y_min[3])
-  if (diff_sigma > (2*tolerance)){
+  if (diff_sigma > (2*tolerance)) {
     multiple = 1
   }
   else{
@@ -101,24 +101,24 @@ stem <- function(beta, se, param){
   return(output)
 }
 
-stem_converge <- function(initial_sigma, beta_sorted, se_sorted, param){
+stem_converge <- function(initial_sigma, beta_sorted, se_sorted, param) {
   converged = 0
   N_count = 0
   tolerance = param[1]
   max_N_count = param[2]
   sigma0 = initial_sigma
   
-  while (converged == 0){
+  while (converged == 0) {
     output <- stem_compute(beta_sorted, se_sorted, sigma0)
     Y_stem <- output$estimates
     sigma = Y_stem[3]
     evolution = abs(sigma0 - sigma)
     N_count = N_count + 1
     
-    if (evolution<tolerance){
+    if (evolution<tolerance) {
       converged = 1
     }
-    else if (N_count > max_N_count){
+    else if (N_count > max_N_count) {
       converged = 1
     }
     else{
@@ -133,7 +133,7 @@ stem_converge <- function(initial_sigma, beta_sorted, se_sorted, param){
 
 
 ##2 inner algorithm
-stem_compute <- function(beta, se, sigma0){
+stem_compute <- function(beta, se, sigma0) {
   
   N_study = length(beta)
   
@@ -167,19 +167,19 @@ stem_compute <- function(beta, se, sigma0){
   return(output)
 }
 
-variance_b <- function(se, sigma){
+variance_b <- function(se, sigma) {
   N_study <- length(se)
   Y <- vector(mode = 'numeric', length = N_study)
   proportional_weights = 1/(se^2 + sigma^2)
   
-  for (i in 1:N_study){
+  for (i in 1:N_study) {
     Y[i] <- 1/sum(proportional_weights[1:i])
   }
   return(Y)
 }
 
 
-variance_0 <- function(n_stem, beta, se, beta_mean){
+variance_0 <- function(n_stem, beta, se, beta_mean) {
   # formula adopted from DerSimonian and Laird (1996)
   weights <- 1/(se[1:n_stem]^2)
   total_weight = sum(weights)
@@ -192,13 +192,13 @@ variance_0 <- function(n_stem, beta, se, beta_mean){
   return(Y)
 }
 
-weighted_mean <- function(beta, se, sigma){
+weighted_mean <- function(beta, se, sigma) {
   N_study <- length(beta)
   Y <- vector(mode = 'numeric', length = N_study)
   
   proportional_weights <- 1/(se^2 + sigma^2)
   
-  for (i in 1:N_study){
+  for (i in 1:N_study) {
     Y[i] <- beta[1:i] %*% proportional_weights[1:i]/sum(proportional_weights[1:i])
   }
   return(Y)
@@ -207,7 +207,7 @@ weighted_mean <- function(beta, se, sigma){
 # New function for calculating partial matrix sums
 compute_submat_sums <- function(mat) {
   # calculate cumulative sums over rows and columns
-  f <- function(x){cumsum(as.numeric(x))}
+  f <- function(x) {cumsum(as.numeric(x))}
   sum1 <- apply(mat, 2, f) # Sum over cols
   sum2 <- apply(sum1, 1, f) # Sum over rows
   out <- diag(sum2)
@@ -215,7 +215,7 @@ compute_submat_sums <- function(mat) {
 }
 
 # New function for weighted mean of squared matrixes
-weighted_mean_squared <- function(beta, se, sigma){
+weighted_mean_squared <- function(beta, se, sigma) {
   N <- length(beta)
   Y <- vector(mode = 'numeric', length = N)
   
@@ -246,7 +246,7 @@ weighted_mean_squared <- function(beta, se, sigma){
 }
 
 # Original function for weighted mean of squared matrixes
-weighted_mean_squared_orig <- function(beta, se, sigma){
+weighted_mean_squared_orig <- function(beta, se, sigma) {
   N <- length(beta)
   Y <- vector(mode = 'numeric', length = N)
   
@@ -256,7 +256,7 @@ weighted_mean_squared_orig <- function(beta, se, sigma){
   W <- weights %o% weights
   WB <- weights_beta %o% weights_beta
   
-  for (i in 2:N){
+  for (i in 2:N) {
     Y1 <- sum(WB[1:i,1:i]) - sum(weights_beta[1:i]^2)
     Y2 <- sum(W[1:i,1:i]) - sum(weights[1:i]^2)
     Y[i] <- Y1/Y2
@@ -268,12 +268,12 @@ weighted_mean_squared_orig <- function(beta, se, sigma){
 #install.packages("ggplot2")
 #library(ggplot2)
 
-se_rescale <- function(se){
+se_rescale <- function(se) {
   Y <- -log10(se)
   return(Y)
 }
 
-stem_funnel <- function(beta_input, se_input, stem_estimates, theme, legend_pos = "topleft"){
+stem_funnel <- function(beta_input, se_input, stem_estimates, theme, legend_pos = "topleft") {
   #take stem estimates
   b_stem <- stem_estimates[1]
   SE_b_stem <- stem_estimates[2]
@@ -352,7 +352,7 @@ stem_funnel <- function(beta_input, se_input, stem_estimates, theme, legend_pos 
   
 }
 
-stem_MSE <- function(V){
+stem_MSE <- function(V) {
   MSE = V[,1]
   bias_squared = V[,3]
   variance = V[,2]
@@ -376,7 +376,7 @@ stem_MSE <- function(V){
 #install.packages("data.table")
 #library("data.table")
 
-data_median <- function(data, id_var, main_var, additional_var){
+data_median <- function(data, id_var, main_var, additional_var) {
   
   #1. drop rows with any NA
   complete_data <- na.omit(data)
