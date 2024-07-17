@@ -28,7 +28,7 @@
 #-------------------#
 
 #### ADDED EXTERNALLY, JUST FOR CONFLICTLESS PACKAGE HANDLING ####
-loadPackages <- function(package_list) {
+load_packages <- function(package_list) {
   # Install packages not yet installed
   installed_packages <- package_list %in% rownames(installed.packages())
   if (any(installed_packages == FALSE)) {
@@ -39,7 +39,7 @@ loadPackages <- function(package_list) {
   invisible(lapply(package_list, library, character.only = TRUE))
 }
 
-loadPackages(c('ggplot2', 'data.table'))
+load_packages(c('ggplot2', 'data.table'))
 
 #### END OF PACKAGE HANDLING ####
 
