@@ -1,21 +1,21 @@
-﻿# Automatic Replication Tools for Meta-Analysis
+﻿# Automatic Replication Tools for Meta-Analysis - Diploma Thesis
 
 ## About
 
-This repository helps to facilitate replication of meta-analyses. You can use it to quickly generate a large number of state-of-the-art models for any well-structured dataset.
+This repository helps to facilitate building models for your diploma thesis. You can use it to quickly generate a large number of state-of-the-art models for any well-structured dataset.
 
 ## How to use
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/PetrCala/artma
+   git clone https://github.com/PetrCala/artma-dt
    ```
 
 1. Change into the directory:
 
    ```bash
-   cd artma
+   cd artma-dt
    ```
 
 1. Run
