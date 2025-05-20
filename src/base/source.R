@@ -4221,7 +4221,7 @@ getBMAData <- function(input_data, input_var_list, variable_info, scale_data = T
     to_log <- as.logical(input_var_list[row_idx, "to_log_for_bma"])
     if (to_log) {
       bma_data[, column] <- log(bma_data[, column])
-      bma_data[is.infinite(bma_data[, column]), column] <- 0 # Replace infinite values with 0
+      bma_data[is.infinite(bma_data[, column]) | is.na(bma_data[, column]), column] <- 0 # Replace infinite and NA values with 0
     }
   }
 
