@@ -6308,7 +6308,7 @@ getBootstrappedCI <- function(
 
   # Perform the bootstrap
   set.seed(123) # Make deterministic for cache usage
-  results <- boot::boot(data, boot_function, R = R, fit_model = fit_model)
+  results <- boot::boot(input_data, boot_function, R = R, fit_model = fit_model)
 
   # Construct the bootstrap confidence interval
   ci_results <- list(percent = c(NA, NA, NA, NA, NA)) # Initialize as empty in case the boot::boot yielded NAs
