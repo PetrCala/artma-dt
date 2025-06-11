@@ -154,8 +154,8 @@ adjustable_parameters:
     max.iter: 1000
     tol: 0.1
     reps: 10000
-    int: [-5, 25]
-    est.ci: [-10, 10]
+    int: [-2, 2]
+    est.ci: [3, 3]
     verbose: true 			# puni_star controls
   # Caliper test parameters
   caliper_thresholds: [1.645, 1.96, 2.58] 	# Caliper thresholds - keep as vector
