@@ -25,10 +25,23 @@ invisible(lapply(initial_packages, function(x) suppressPackageStartupMessages(lo
 
 # Working directory - change only if the script is being ran interactively
 if (interactive()) {
-  if (!getwd() == dirname(getActiveDocumentContext()$path)) {
-    newdir <- dirname(getActiveDocumentContext()$path)
-    cat(sprintf("Setting the working directory to: %s \n", newdir))
-    setwd(newdir) # Set WD to the current file location
+  tryCatch(
+    {
+      if (!getwd() == dirname(getActiveDocumentContext()$path)) {
+        newdir <- dirname(getActiveDocumentContext()$path)
+        cat(sprintf("Setting the working directory to: %s \n", newdir))
+        setwd(newdir) # Set WD to the current file location
+      }
+    },
+    error = function(e) {
+      cat("Not running in RStudio - skipping working directory check\n")
+    }
+  )
+  # Check if main.R exists in the working directory
+  if (!file.exists("main.R")) {
+    stop("Could not find main.R in the working directory. Please ensure the file exists.")
+  } else {
+    cat("Working directory set.\n")
   }
 }
 
@@ -55,7 +68,7 @@ verify_file_existence <- function(file_name, file_path) {
 invisible(lapply(names(source_file_list), function(name) verify_file_existence(name, source_file_list[[name]])))
 
 # Load some basic functions and utility objects
-source(source_file);
+source(source_file)
 source(const_file)
 source(env_file)
 
@@ -410,7 +423,8 @@ if (run_this$nonlinear_tests) {
     exportResults(nonlinear_tests_results, user_params, "nonlinear_tests", result_type = "num")
   }
   if (export_options$export_tex) {
-    exportResults(nonlinear_tests_results, user_params, "nonlinear_tests", result_type = "tex",
+    exportResults(nonlinear_tests_results, user_params, "nonlinear_tests",
+      result_type = "tex",
       table_template = table_templates$nonlinear_tests
     )
   }
