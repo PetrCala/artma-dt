@@ -12,6 +12,8 @@ __pycache__/
 src/_cache/*
 src/results/*
 src/data/temp/*
+src/data/source/*
+!src/data/source/data_set_master_thesis_cala.xlsx
 src/graphics/*
 src/*_debug.R
 src/temp_*.R
