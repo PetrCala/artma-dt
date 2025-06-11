@@ -3509,9 +3509,9 @@ getPUniResults <- function(data, add_significance_marks = T, ...) {
   # Get parameters
   all_params <- c(
     list(
-      yi = med_yi,
-      vi = med_sdi^2, # Squared sd
-      ni = med_ni
+      mi = med_yi,
+      sdi = med_sdi,
+      ni = med_sample_sizes
     ),
     list(...)
   )
