@@ -41,7 +41,7 @@ CONST <- list(
     "plm" = NA, # Random Effects, Between Effects
     "plotly" = NA, # Interactive plots
     "png" = NA, # PNG plots
-    "puniform" = NA, # Computing the density, distribution function, and quantile function of the uniform distribution
+    "puniform" = "0.2.7", # Computing the density, distribution function, and quantile function of the uniform distribution
     "pracma" = NA, # MAIVE Estimator, Elliott et al. (2022)
     "RColorBrewer" = NA, # Plot colors
     "rddensity" = NA, # Elliott et al. (2022)
