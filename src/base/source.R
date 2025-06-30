@@ -4877,6 +4877,11 @@ constructBPEFormula <- function(input_data, input_var_list, bma_data, bma_coefs,
     is.logical(include_intercept),
     nrow(input_data) == nrow(bma_data)
   )
+
+  if (nrow(bma_data) == 0) {
+    stop(paste("No data for the study with ID", study_id, "when constructing the BPE formula."))
+  }
+
   # Define static variables
   allowed_characters <- c("mean", "median", "min", "max")
   bma_vars <- rownames(bma_coefs)
@@ -4891,6 +4896,9 @@ constructBPEFormula <- function(input_data, input_var_list, bma_data, bma_coefs,
   # Get the current study data
   if (!study_id == 0) {
     bma_data <- bma_data[input_data$study_id == study_id, ] # Current study only
+    if (nrow(bma_data) == 0) {
+      stop(paste("No data for the study with ID", study_id, "when constructing the BPE formula."))
+    }
   }
   # Iterate over the bma_vars and add the corresponding coefficients from input_var_list
   for (bma_var in bma_vars) {
