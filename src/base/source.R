@@ -5058,13 +5058,13 @@ runBPE <- function(input_data, input_var_list, bma_model, bma_formula, bma_data,
     },
     error = function(e) {
       warning(paste("BPE Standard Error calculation failed for study with ID", study_id, ":", e))
-      return(NA)
+      return(NULL)
     }
   )
   # Prone to errors, so use tryCatch instead
   bpe_se <- tryCatch(
     {
-      if (is.na(bpe_glht)) {
+      if (is.null(bpe_glht)) {
         return(NA)
       }
       as.numeric(summary(bpe_glht)$test$sigma) # Extract output
