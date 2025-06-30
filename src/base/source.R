@@ -812,6 +812,13 @@ validateData <- function(input_data, input_var_list, ignore_missing = F) {
     ))
     stop("Constant columns.")
   }
+  # Validate that study IDs are integers above 0
+  if (!is.integer(input_data$study_id)) {
+    stop("Study IDs must be positive integers.")
+  }
+  if (any(input_data$study_id <= 0)) {
+    stop("All study IDs must be above 0.")
+  }
   ### Correlation validation
   cor_matrix <- cor(data[sapply(data, is.numeric)]) # Corr table of numeric columns
   cor_matrix[lower.tri(cor_matrix, diag = TRUE)] <- NA # Lower triangle to NA
@@ -5094,6 +5101,7 @@ generateBPEResultTable <- function(study_ids, input_data, input_var_list, bma_mo
   }
   # Set study ids to all ids if required
   if ("all" %in% study_ids) {
+    # browser()
     study_ids <- seq(from = 0, to = max(input_data$study_id), by = 1)
     study_info_verbose <- F # Silence individual study message
   }
