@@ -4948,6 +4948,9 @@ constructBPEFormula <- function(input_data, input_var_list, bma_data, bma_coefs,
       bpe_est_string <- paste0(bpe_est_string, " + ", coef, "*", output_var_name)
     }
   }
+  if (grepl("0\\*", bpe_est_string)) {
+    stop("Found multiplication by 0 when constructing the BPE formula. This indicates a variable with zero coefficient was not properly excluded.")
+  }
   # Append =0 to finish the formula in case of SE
   if (get_se) {
     bpe_est_string <- paste(bpe_est_string, "= 0")
