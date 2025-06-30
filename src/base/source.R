@@ -5049,13 +5049,24 @@ runBPE <- function(input_data, input_var_list, bma_model, bma_formula, bma_data,
     get_se = TRUE
   )
   bpe_ols <- lm(formula = bma_formula, data = bma_data) # Constructing an OLS model
-  bpe_glht <- glht(bpe_ols,
-    linfct = c(bpe_formula_se), # GLHT
-    vcov = vcovHC(bpe_ols, type = "HC0", cluster = c(input_data$study_id))
-  ) # Perhaps eval on study-data only??
+  bpe_glht <- tryCatch(
+    {
+      glht(bpe_ols,
+        linfct = c(bpe_formula_se), # GLHT
+        vcov = vcovHC(bpe_ols, type = "HC0", cluster = c(input_data$study_id))
+      ) # Perhaps eval on study-data only??
+    },
+    error = function(e) {
+      warning(paste("BPE Standard Error calculation failed for study with ID", study_id, ":", e))
+      return(NA)
+    }
+  )
   # Prone to errors, so use tryCatch instead
   bpe_se <- tryCatch(
     {
+      if (is.na(bpe_glht)) {
+        return(NA)
+      }
       as.numeric(summary(bpe_glht)$test$sigma) # Extract output
     },
     error = function(e) {
