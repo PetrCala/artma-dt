@@ -4921,9 +4921,7 @@ constructBPEFormula <- function(input_data, input_var_list, bma_data, bma_coefs,
         numeric_bpe <- !is.na(as.numeric(var_bpe)) # Recognize numeric values based on lack of error - not ideal
       )
       if (numeric_bpe) {
-        var_bpe <- as.numeric(var_bpe) # To numeric
-        if (var_bpe == 0) next # Do not add to the formula
-        var_bpe <- round(var_bpe, 3)
+        coef <- as.numeric(var_bpe) # To numeric
       } else {
         # Handle character coefficients (determine the BPE value within the data of the study)
         stopifnot(is.character(var_bpe)) # Should never occur (non-numeric values autoamtically read as characters)
@@ -4939,16 +4937,15 @@ constructBPEFormula <- function(input_data, input_var_list, bma_data, bma_coefs,
         }
         func <- get(var_bpe) # Get the function to evaluate the value with - mean, median,...
         coef <- func(bma_data[[bma_var]], na.rm = TRUE) # Evaluate the expression within the study data
-        coef <- round(coef, 3)
-        if (coef == 0) next
-        coef <- as.character(coef) # Back to character
       }
+      coef <- round(coef, 3)
       # Handle output different than static numbers
       output_var_name <- ifelse(get_se, bma_var, getBMACoefValue(bma_var, bma_coefs)) # Var name for SE, value for EST
-      bpe_est_string <- paste0(bpe_est_string, " + ", coef, "*", output_var_name)
+      if (coef == 0 || output_var_name == 0) next # Do not add to the formula
+      bpe_est_string <- paste0(bpe_est_string, " + ", as.character(coef), "*", output_var_name)
     }
   }
-  if (grepl("0\\*", bpe_est_string)) {
+  if (grepl("\\+ 0\\*", bpe_est_string)) {
     stop("Found multiplication by 0 when constructing the BPE formula. This indicates a variable with zero coefficient was not properly excluded.")
   }
   # Append =0 to finish the formula in case of SE
