@@ -5101,8 +5101,8 @@ generateBPEResultTable <- function(study_ids, input_data, input_var_list, bma_mo
   }
   # Set study ids to all ids if required
   if ("all" %in% study_ids) {
-    # browser()
-    study_ids <- seq(from = 0, to = max(input_data$study_id), by = 1)
+    # 0 at the beginning to get the author's BPE
+    study_ids <- c(0, unique(input_data$study_id))
     study_info_verbose <- F # Silence individual study message
   }
   # Helper function for getting a single study BPE data frame
