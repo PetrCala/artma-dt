@@ -5134,8 +5134,8 @@ generateBPEResultTable <- function(study_ids, input_data, input_var_list, bma_mo
     se <- bpe_result[2] # BPE Standard error
     # Obtain the data frame values, save them in a temporary data frame
     if (use_ci) {
-      ci_lbound <- est - 1.96 * se
-      ci_ubound <- est + 1.96 * se
+      ci_lbound <- if (is.na(est)) NA else est - 1.96 * se
+      ci_ubound <- if (is.na(est)) NA else est + 1.96 * se
       temp_df <- data.frame(
         "estimate" = round(est, 3),
         "ci_95_lower" = round(ci_lbound, 3),
